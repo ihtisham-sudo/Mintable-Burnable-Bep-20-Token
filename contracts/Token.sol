@@ -13,3 +13,26 @@ contract Token {
     mapping (address => uint256) public balanceOf;
     /* This creates a mapping of accounts with allowances */
     mapping (address => mapping (address => uint256)) public allowance;
+
+    /* This event is always fired on a successfull call of the
+       transfer, transferFrom, mint, and burn methods */
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    /* This event is always fired on a successfull call of the approve method */
+    event Approve(address indexed owner, address indexed spender, uint256 value);
+
+    constructor() {
+        name = "$AD"; // Sets the name of the token, i.e Ether
+        symbol = "SD"; // Sets the symbol of the token, i.e ETH
+        decimals = 18; // Sets the number of decimal places
+        uint256 _initialSupply = 1000000000; // Holds an initial supply of coins
+
+        /* Sets the owner of the token to whoever deployed it */
+        owner = payable(msg.sender);
+
+        balanceOf[owner] = _initialSupply; // Transfers all tokens to owner
+        totalSupply = _initialSupply; // Sets the total supply of tokens
+
+        /* Whenever tokens are created, burnt, or transfered,
+            the Transfer event is fired */
+        emit Transfer(address(0), msg.sender, _initialSupply);
+    }
