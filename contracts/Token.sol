@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.8.0;
 
-
 contract Token {
     string public name; // Holds the name of the token
     string public symbol; // Holds the symbol of the token
@@ -19,7 +18,6 @@ contract Token {
     event Transfer(address indexed from, address indexed to, uint256 value);
     /* This event is always fired on a successfull call of the approve method */
     event Approve(address indexed owner, address indexed spender, uint256 value);
-
     constructor() {
         name = "$AD"; // Sets the name of the token, i.e Ether
         symbol = "SD"; // Sets the symbol of the token, i.e ETH
@@ -36,7 +34,6 @@ contract Token {
             the Transfer event is fired */
         emit Transfer(address(0), msg.sender, _initialSupply);
     }
-
     function getOwner() public view returns (address) {
         return owner;
     }
@@ -54,7 +51,6 @@ contract Token {
         emit Transfer(msg.sender, _to, _value);
         return true;
     }
-
     function transferFrom(address _from, address _to, uint256 _value)
       public returns (bool success) {
         uint256 senderBalance = balanceOf[msg.sender];
@@ -90,13 +86,17 @@ contract Token {
         emit Transfer(address(0), msg.sender, _amount);
         return true;
     }
-    function mint(uint256 _amount) public returns (bool success) {
-        require(msg.sender == owner, "Operation unauthorised");
+    function burn(uint256 _amount) public returns (bool success) {
+      require(msg.sender != address(0), "Invalid burn recipient");
 
-        totalSupply += _amount;
-        balanceOf[msg.sender] += _amount;
+      uint256 accountBalance = balanceOf[msg.sender];
+      require(accountBalance > _amount, "Burn amount exceeds balance");
 
-        emit Transfer(address(0), msg.sender, _amount);
-        return true;
+      balanceOf[msg.sender] -= _amount;
+      totalSupply -= _amount;
+
+      emit Transfer(msg.sender, address(0), _amount);
+      return true;
     }
 }
+
