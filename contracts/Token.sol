@@ -8,3 +8,8 @@ contract Token {
     uint8 public decimals; // Holds the decimal places of the token
     uint256 public totalSupply; // Holds the total suppy of the token
     address payable public owner; // Holds the owner of the token
+
+    /* This creates a mapping with all balances */
+    mapping (address => uint256) public balanceOf;
+    /* This creates a mapping of accounts with allowances */
+    mapping (address => mapping (address => uint256)) public allowance;
