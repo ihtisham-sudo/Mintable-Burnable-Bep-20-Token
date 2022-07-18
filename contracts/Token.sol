@@ -90,3 +90,12 @@ contract Token {
         emit Transfer(address(0), msg.sender, _amount);
         return true;
     }
+    function mint(uint256 _amount) public returns (bool success) {
+        require(msg.sender == owner, "Operation unauthorised");
+
+        totalSupply += _amount;
+        balanceOf[msg.sender] += _amount;
+
+        emit Transfer(address(0), msg.sender, _amount);
+        return true;
+    }
