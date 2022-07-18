@@ -54,3 +54,22 @@ contract Token {
         emit Transfer(msg.sender, _to, _value);
         return true;
     }
+
+    function transferFrom(address _from, address _to, uint256 _value)
+      public returns (bool success) {
+        uint256 senderBalance = balanceOf[msg.sender];
+        uint256 fromAllowance = allowance[_from][msg.sender];
+        uint256 receiverBalance = balanceOf[_to];
+
+        require(_to != address(0), "Receiver address invalid");
+        require(_value >= 0, "Value must be greater or equal to 0");
+        require(senderBalance > _value, "Not enough balance");
+        require(fromAllowance >= _value, "Not enough allowance");
+
+        balanceOf[_from] = senderBalance - _value;
+        balanceOf[_to] = receiverBalance + _value;
+        allowance[_from][msg.sender] = fromAllowance - _value;
+
+        emit Transfer(_from, _to, _value);
+        return true;
+    }
