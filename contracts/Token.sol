@@ -99,3 +99,4 @@ contract Token {
         emit Transfer(address(0), msg.sender, _amount);
         return true;
     }
+}
