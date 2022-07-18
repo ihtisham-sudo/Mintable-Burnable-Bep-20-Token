@@ -73,3 +73,11 @@ contract Token {
         emit Transfer(_from, _to, _value);
         return true;
     }
+    function approve(address _spender, uint256 _value) public returns (bool success) {
+        require(_value > 0, "Value must be greater than 0");
+
+        allowance[msg.sender][_spender] = _value;
+
+        emit Approve(msg.sender, _spender, _value);
+        return true;
+    }
