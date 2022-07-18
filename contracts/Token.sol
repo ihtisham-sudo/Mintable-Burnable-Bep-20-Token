@@ -36,3 +36,7 @@ contract Token {
             the Transfer event is fired */
         emit Transfer(address(0), msg.sender, _initialSupply);
     }
+
+    function getOwner() public view returns (address) {
+        return owner;
+    }
