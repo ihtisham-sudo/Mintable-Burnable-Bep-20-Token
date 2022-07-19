@@ -57,6 +57,9 @@ contract Token {
     function getOwner() public view returns (address) {
         return owner;
     }
+    function _checkOwner() internal view virtual {
+        require(getOwner() == _msgSender(), "Ownable: caller is not the owner");
+    }
     function transfer(address _to, uint256 _value) public returns (bool success) {
         uint256 senderBalance = balanceOf[msg.sender];
         uint256 receiverBalance = balanceOf[_to];
