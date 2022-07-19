@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.8.0;
-
 contract Token {
     string public name; // Holds the name of the token
     string public symbol; // Holds the symbol of the token
@@ -21,6 +20,15 @@ contract Token {
     event Approve(address indexed owner, address indexed spender, uint256 value);
     /* This event is always fired on a successfull call of the transferOwnership method */
      event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
+     /**
+     * @dev Throws if called by any account other than the owner.
+     */
+    modifier onlyOwner() {
+        _checkOwner();
+        _;
+    }
+
     constructor() {
         name = "$AD"; // Sets the name of the token, i.e Ether
         symbol = "SD"; // Sets the symbol of the token, i.e ETH
