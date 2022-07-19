@@ -60,6 +60,16 @@ contract Token {
     function _checkOwner() internal view virtual {
         require(getOwner() == _msgSender(), "Ownable: caller is not the owner");
     }
+    /**
+     * @dev Leaves the contract without owner. It will not be possible to call
+     * `onlyOwner` functions anymore. Can only be called by the current owner.
+     *
+     * NOTE: Renouncing ownership will leave the contract without an owner,
+     * thereby removing any functionality that is only available to the owner.
+     */
+    function renounceOwnership() public virtual onlyOwner {
+        _transferOwnership(address(0));
+    }
     function transfer(address _to, uint256 _value) public returns (bool success) {
         uint256 senderBalance = balanceOf[msg.sender];
         uint256 receiverBalance = balanceOf[_to];
