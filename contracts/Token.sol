@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity >=0.8.0;
+pragma solidity >=0.7.0;
 contract Token {
     string public name; // Holds the name of the token
     string public symbol; // Holds the symbol of the token
     uint8 public decimals; // Holds the decimal places of the token
     uint256 public totalSupply; // Holds the total suppy of the token
-    address payable public owner; // Holds the owner of the 
-    
+    address private owner; // Holds the owner of the token
+
 
     /* This creates a mapping with all balances */
     mapping (address => uint256) public balanceOf;
@@ -18,8 +18,9 @@ contract Token {
     event Transfer(address indexed from, address indexed to, uint256 value);
     /* This event is always fired on a successfull call of the approve method */
     event Approve(address indexed owner, address indexed spender, uint256 value);
-    /* This event is always fired on a successfull call of the transferOwnership method */
-     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+     
 
      /**
      * @dev Throws if called by any account other than the owner.
@@ -30,14 +31,13 @@ contract Token {
     }
 
     constructor() {
-        name = "$AD"; // Sets the name of the token, i.e Ether
-        symbol = "SD"; // Sets the symbol of the token, i.e ETH
+        name = "$HAN"; // Sets the name of the token, i.e Ether
+        symbol = "SN"; // Sets the symbol of the token, i.e ETH
         decimals = 18; // Sets the number of decimal places
-        uint256 _initialSupply = 1000000000; // Holds an initial supply of coins
+        uint256 _initialSupply = 1000000 * 10 ** 18; // Holds an initial supply of coins
 
         /* Sets the owner of the token to whoever deployed it */
         owner = payable(msg.sender);
-        /* Set the Transfer Ownership of the token to whoever deployed it */
         _transferOwnership(_msgSender());
 
         balanceOf[owner] = _initialSupply; // Transfers all tokens to owner
@@ -60,7 +60,7 @@ contract Token {
     function _checkOwner() internal view virtual {
         require(getOwner() == _msgSender(), "Ownable: caller is not the owner");
     }
-    /**
+     /**
      * @dev Leaves the contract without owner. It will not be possible to call
      * `onlyOwner` functions anymore. Can only be called by the current owner.
      *
@@ -69,6 +69,23 @@ contract Token {
      */
     function renounceOwnership() public virtual onlyOwner {
         _transferOwnership(address(0));
+    }
+     /**
+     * @dev Transfers ownership of the contract to a new account (`newOwner`).
+     * Can only be called by the current owner.
+     */
+    function transferOwnership(address newOwner) public virtual onlyOwner {
+        require(newOwner != address(0), "Ownable: new owner is the zero address");
+        _transferOwnership(newOwner);
+    }
+     /**
+     * @dev Transfers ownership of the contract to a new account (`newOwner`).
+     * Internal function without access restriction.
+     */
+    function _transferOwnership(address newOwner) internal virtual {
+        address oldOwner = owner;
+        owner = newOwner;
+        emit OwnershipTransferred(oldOwner, newOwner);
     }
     function transfer(address _to, uint256 _value) public returns (bool success) {
         uint256 senderBalance = balanceOf[msg.sender];
