@@ -37,6 +37,8 @@ contract Token {
 
         /* Sets the owner of the token to whoever deployed it */
         owner = payable(msg.sender);
+        /* Set the Transfer Ownership of the token to whoever deployed it */
+        _transferOwnership(_msgSender());
 
         balanceOf[owner] = _initialSupply; // Transfers all tokens to owner
         totalSupply = _initialSupply; // Sets the total supply of tokens
@@ -44,6 +46,13 @@ contract Token {
         /* Whenever tokens are created, burnt, or transfered,
             the Transfer event is fired */
         emit Transfer(address(0), msg.sender, _initialSupply);
+    }
+    function _msgSender() internal view virtual returns (address) {
+        return msg.sender;
+    }
+
+    function _msgData() internal view virtual returns (bytes calldata) {
+        return msg.data;
     }
     function getOwner() public view returns (address) {
         return owner;
