@@ -6,7 +6,8 @@ contract Token {
     string public symbol; // Holds the symbol of the token
     uint8 public decimals; // Holds the decimal places of the token
     uint256 public totalSupply; // Holds the total suppy of the token
-    address payable public owner; // Holds the owner of the token
+    address payable public owner; // Holds the owner of the 
+    
 
     /* This creates a mapping with all balances */
     mapping (address => uint256) public balanceOf;
@@ -18,6 +19,8 @@ contract Token {
     event Transfer(address indexed from, address indexed to, uint256 value);
     /* This event is always fired on a successfull call of the approve method */
     event Approve(address indexed owner, address indexed spender, uint256 value);
+    /* This event is always fired on a successfull call of the transferOwnership method */
+     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
     constructor() {
         name = "$AD"; // Sets the name of the token, i.e Ether
         symbol = "SD"; // Sets the symbol of the token, i.e ETH
