@@ -17,3 +17,7 @@ Regards, Ihtisham-Sudo
 []: # Language: Solidity
 []: # Path: Contracts/Token.sol
 ```
+New Features {
+    ++Token ownership can be transferred now by simply sending the ownership to another address.
+
+}
